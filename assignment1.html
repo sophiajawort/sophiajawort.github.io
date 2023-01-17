@@ -26,6 +26,27 @@
             <img src="a1BlinkSchematic.jpg" width=400>            
             <h1>work and calculations</h1>
             <img src="a1BlinkWork.jpg" width = 400>
+            <h1>Code Snippet</h1>
+            <pre>
+                <code>
+                    // the setup function runs once when you press reset or power the board
+                    void setup() {
+                        for(int pinNumber = 11; pinNumber < 14; pinNumber++){ // begining for loop for pins 11, 12, and 13
+                            pinMode(pinNumber, OUTPUT);  // initializing pins as an output
+                        }
+                    }
+
+                    // the loop function runs over and over again forever
+                    void loop() {
+                        for(int pinNumber = 11; pinNumber < 14; pinNumber++){ // beginning for loop to iterate through pins 11,12, and 13
+                            digitalWrite(pinNumber, HIGH); // turn the LED on by making voltage high
+                            delay(1000); // wait for a second
+                            digitalWrite(pinNumber, LOW); // turn the LED off by making voltage low
+                            delay(1000); // wait for a second
+                        }
+                    }
+                </code>
+            </pre>
         </div>
         
     </body>
