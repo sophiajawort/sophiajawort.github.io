@@ -12,13 +12,66 @@
     <body> 
 
         <div class="header">
-            <h1>Example Student's Assignment 2!</h1>
-            <p>
-            <img src="red-panda.jpg" width=400></a>
+            <h1>A2 Fade</h1>
+            <img src="A2FadeGif.gif" width=400></a>
             </p>
             <p>
             Here is all the documentation for assignment 2!
             </p>
+        </div>
+
+        <div class="body">
+            <h1>schematic</h1>
+            <img src="A2FadeSchematic.jpeg" width=400>            
+            <h1>work and calculations</h1>
+            <img src="A2FadeWork.jpg" width = 400>
+            <p> I chose a 220 ohm resistor for both of my LEDS. For the button I chose a 10k ohm resistor to limit
+                the current and reduce overall power consumption of my circuit. 
+            </p>
+            <h1>Code Snippet</h1>
+            <pre>
+                <code>
+                    int buttonState = 0;  // variable for reading the pushbutton status
+
+                    void setup() {
+                        // initialize the LED pins (10, 11) as outputs:
+                        pinMode(10, OUTPUT);
+                        pinMode(11, OUTPUT);
+                        // initialize the pushbutton pin(9) as an input:
+                        pinMode(9, INPUT);
+                    }
+
+                    void loop() {
+                        // read the state of the pushbutton value:
+                        buttonState = digitalRead(buttonPin);
+
+                        // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+                        if (buttonState == HIGH) {
+                            digitalWrite(10, HIGH); // turn LED on pin 10 on
+                            delay(1000); // wait a second
+                            digitalWrite(10, LOW); // turn LED on pin 10 off
+
+                            // for loops to fade on and off the LED
+                            for(int brightness = 0; brightness <255 ; brightness+=15){
+                                analogWrite(11, brightness); // fade in the LED on pin 11
+                                delay(100); // wait 100 milliseconds
+                            }
+                            for(int brightness =255; brightness >= 0; brightness-=15){
+                                analogWrite(11, brightness); // fade the LED on pin 11
+                                delay(100); // wait 100 milliseconds
+                            }
+
+                            delay(1000); // wait a second
+                            digitalWrite(10, HIGH); // turn LED on pin 10 on
+                            analogWrite(11, 255); // turn LED on pin 11 on
+
+                        } else {
+                            digitalWrite(10, LOW); // turn LED on pin 10 off
+                            analogWrite(11, 0); // turn LED on pin 11 off
+                        }
+                    }
+                </code>
+            </pre>
         </div>
         
     </body>
