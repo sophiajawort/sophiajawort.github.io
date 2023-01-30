@@ -36,17 +36,17 @@
             <h1>Code Snippet</h1>
             <pre>
                 <code>
-                    int redPin = 11; // set constant for the pin that red LED is attached to
-                    int bluePin = 10; // set constant for the pin that blue LED is attached to 
+                int redPin = 11; // set constant for the pin that red LED is attached to
+                int bluePin = 10; // set constant for the pin that blue LED is attached to 
 
-                    void setup() {
+                void setup() {
                     Serial.begin(9600); // intiating serial output on my computer
                     pinMode(redPin, OUTPUT); // initialze pin 11 to be output
                     pinMode(bluePin, OUTPUT); // initialize pin 10 to be output
                     pinMode(A0, INPUT); // initialize analog 0 pin to be input
-                    }
+                }
 
-                    void loop() {
+                void loop() {
                     int currValue = analogRead(A0); // reading the current sensor value
                     Serial.print("Current Value :"); // print statements to display the current value to help define ranges
                     Serial.println(currValue); // print statements to display the current value to help define ranges
@@ -64,7 +64,7 @@
                         analogWrite(redPin,0); // turn off red LED
                     }
 
-                    }
+                }
                 </code>
             </pre>
         </div>
