@@ -1,0 +1,94 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+
+        <title>Sophia Jaworts HCDE 439 Physical Computing Page!</title> 
+
+        <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+
+    </head> 
+    <body> 
+
+        <div class="header">
+            <h1>A4 Libraries !</h1>
+            <img src="A4Gif.gif" width=400></a>
+            </p>
+            <p>
+            Here is all the documentation for assignment 4!
+            </p>
+        </div>
+
+        <div class="body">
+            <h1>schematic</h1>
+            <img src="A4Schematic.jpg" width=400>            
+
+
+            <h1>Code Snippet</h1>
+            <pre>
+                <code>
+                    #include <IRremote.h> // import the Iremote library
+                    #include <Servo.h> // import servo motor libraru
+                    #define IR_RECEIVE_PIN 12 // defining infared sensor receiving pin
+                    
+                    #define IR_BUTTON_1 12 // defining value 12 to be button 1 on the remote
+                    #define IR_BUTTON_2 24 // defining value 24 to be button 2 on the remote
+                    #define IR_BUTTON_3 94 // defining value 94 to be button 3 on the remote
+                    #define IR_BUTTON_UP 9 // defining value 9 to be up arrow button on the remote
+                    #define IR_BUTTON_4 8 // defining value 8 to be button 4 on the remote
+                    
+                    Servo myServo;  // create a servo object
+                    
+                    void setup() {
+                        Serial.begin(9600); // begin serial communication
+                        myServo.attach(11); // attach my servo to pin 11
+                        IrReceiver.begin(IR_RECEIVE_PIN); // turn on ir sensor
+                    }
+                    
+                    void loop() {
+                    
+                        if (IrReceiver.decode()) {  // checking to see if there is new data from ir sensor
+                        IrReceiver.resume(); // if yes, new data, resume
+                        int command = IrReceiver.decodedIRData.command; // variable to store value from ir sensor
+                        switch (command) {   // begin defining the switch cases
+                            case IR_BUTTON_1: { // if ir button 1 was pressed
+                            myServo.write(30); // write servo motor to 30 degree angle
+                            Serial.println("Pressed on button 1"); // print out what button was pressed in serial monitor
+                            break; // after button is pressed and servo motor outputs, exit this case so a new command can be read
+                            }
+                            case IR_BUTTON_2: { // if ir button 2 was pressed
+                            myServo.write(45);
+                            Serial.println("Pressed on button 2"); // print out what button was pressed in serial monitor
+                            break; // after button is pressed and servo motor outputs, exit this case so a new command can be read
+                            }
+                            case IR_BUTTON_3: { // if ir button 3 was pressed
+                            myServo.write(90); // write servo motor to 90 degree angle
+                            Serial.println("Pressed on button 3"); // print out what button was pressed in serial monitor
+                            break; // after button is pressed and servo motor outputs, exit this case so a new command can be read
+                            }
+                            case IR_BUTTON_4: { // if ir button 4 was pressed
+                            myServo.write(105); // write servo motor to 105 degree angle
+                            Serial.println("Pressed on button 4"); // print out what button was pressed in serial monitor
+                            break; // after button is pressed and servo motor outputs, exit this case so a new command can be read
+                            }
+                            case IR_BUTTON_UP: { // if ir up arrow button was pressed
+                            for(int angle = 0; angle <= 180; angle+=1){ // for loop to rotate servo motor
+                                myServo.write(angle); // servo motor goes to this angle
+                                delay(15); // delay 15 ms
+                            }
+                            break; // after button is pressed and servo motor outputs, exit this case so a new command can be read
+                            }
+                            default: { // if a button not defined in this switch is pressed 
+                            Serial.println("Button not recognized"); // print that this button was not recognized.
+                            }
+                        }
+                        }
+                    }
+                        
+                </code>
+            </pre>
+        </div>
+        
+    </body>
+</html>
