@@ -1,0 +1,85 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+
+        <title>Sophia Jaworts HCDE 439 Physical Computing Page!</title> 
+
+        <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+
+    </head> 
+    <body> 
+
+        <div class="header">
+            <h1>A5 Higher Voltage and Transistors !</h1>
+            <img src="a5gif.gif" width=400></a>
+            </p>
+            <p>
+            Here is all the documentation for assignment 5!
+            </p>
+        </div>
+
+        <div class="body">
+            <h1>schematic and work</h1>
+            <img src="A5workandschematic.jpg" width=400>     
+            <p> I compared the max drain-source current of the transistor to the current that the LED strip pulls. The led stip draws 1.5A, the transistor
+                can handle 32 A. Therefore, the current drawn from the LED is less than the max current the transistor can handle. 
+            </p>       
+
+
+            <h1>Code Snippet</h1>
+            <pre>
+                <code>
+                    #include &lt; IRremote.h &gt;// import the Iremote library
+                    #define IR_RECEIVE_PIN  12// defining infared sensor receiving pin
+                    
+                    
+                    #define IR_BUTTON_1 12 // defining value 12 to be button 1 on the remote
+                    #define IR_BUTTON_2 24 // defining value 24 to be button 2 on the remote
+                    #define IR_BUTTON_POWER 69 // defining value 69 to be power button on the remote
+                    int led = 9;         // the PWM pin the LED is attached to
+                    bool led_state = false; // variable to keep track of if the led is on or off
+                    
+                    void setup() {
+                        Serial.begin(9600); // begin serial communication
+                        pinMode(led, OUTPUT); // declare pin 9 as an output
+                        IrReceiver.begin(IR_RECEIVE_PIN); // turn on ir sensor
+                    }
+                    
+                    void loop() {
+                    
+                        if (IrReceiver.decode()) { // checking to see if there is new data from ir sensor
+                            IrReceiver.resume(); // if yes, new data, resume
+                            int command = IrReceiver.decodedIRData.command; // variable to store value from ir sensor
+                            switch (command) {   // begin defining the switch cases
+                                case IR_BUTTON_POWER: { // if the power button is pressed turn led all the way on or all the way off
+                                    Serial.print(led_state);
+                                    if(led_state){ //if the leds are on
+                                        analogWrite(led, 0); // turn them off
+                                    }else{ // if they are off
+                                        analogWrite(led, 255); // turn them on
+                                    }
+                                    led_state = !led_state; // update the current state
+                                    break; // after button is pressed and led updates, exit this case so a new command can be read
+                                }
+                                case IR_BUTTON_1: { // if ir button 1 was pressed turn to 100 brightness
+                                    analogWrite(led, 100); // write led to 100 brightness
+                                    break; // after button is pressed and led updates, exit this case so a new command can be read
+                                }
+                                case IR_BUTTON_2: { // if ir button 2 was pressed turn to 50 brightness
+                                    analogWrite(led, 50); // write led to 50 brightness
+                                    break; // after button is pressed and led updates, exit this case so a new command can be read
+                                }
+                                default: { // if a button not defined in this switch is pressed 
+                                    Serial.println("button not recognized");
+                                }
+                            } 
+                        }
+                    }
+            </code>
+            </pre>
+        </div>
+        
+    </body>
+</html>
