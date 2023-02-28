@@ -1,0 +1,192 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+
+        <title>Sophia Jawort's HCDE 439 Physical Computing Page!</title> 
+
+        <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+
+    </head> 
+    <body> 
+
+        <div class="header">
+            <h1>Talking to the Web!</h1>
+            <p>
+            <img src="a6gif.gif"></a>
+            </p>
+            <p>
+            Here is all the documentation for assignment 6!
+            </p>
+        </div>
+        
+        <div class="body">
+            <h1>schematic</h1>
+            <img src="a6schematic.jpg" width=400>            
+            <h1>work and calculations</h1>
+            <img src="a6work1.jpg" width = 400>
+            <p> I used 220 ohm resistors for all three legs of the RGB LED. This is because 220 ohms is
+                greater than 160 ohms, which was the necesarry resistance for the RED LED, which has the highest
+                voltage drop. 
+            </p>
+            <img src="a6work2.jpg" width =400>
+            <p> The values coming from my analog reads were x and y coordinates of the joystick positon. I then had to
+                adjust these by mapping them to values valid for my 400x400 canvas. Work above shows how I determined ranges of x-values 
+                for sending data back to the arduino.
+            </p>
+            <h1>Code Snippets</h1>
+            <h2>p5 Code</h2>
+            <p>**Modified code from in-class examples**</p>
+            <pre>
+                <code>
+                    var serial; // variable to hold an instance of the serialport library
+                    var portName = 'COM3'; //rename to the name of your port
+                    var inData;
+                    var dataarray = []; //some data coming in over serial!
+
+
+                    function setup() {
+                        serial = new p5.SerialPort();       // make a new instance of the serialport library
+                        serial.on('list', printList);       // set a callback function for the serialport list event
+                        serial.on('connected', serverConnected); // callback for connecting to the server
+                        serial.on('open', portOpen);        // callback for the port opening
+                        serial.on('data', serialEvent);     // callback for when new data arrives
+                        serial.on('error', serialError);    // callback for errors
+                        serial.on('close', portClose);      // callback for the port closing
+                        
+                        console.log("muffin");
+                        serial.list();                      // list the serial ports
+                        serial.open(portName);              // open a serial port
+                        createCanvas(400, 400); // create 400x400 canvas
+                    }
+
+                    // get the list of ports:
+                    function printList(portList) {
+                        // portList is an array of serial port names
+                        for (var i = 0; i < portList.length; i++) {
+                        // Display the list the console:
+                        print(i + " " + portList[i]);
+                        }
+                    }
+
+                    function serverConnected() {
+                        print('connected to server.');
+                    }
+
+                    function portOpen() {
+                        print('the serial port opened.')
+                    }
+
+                    function serialError(err) {
+                        print('Something went wrong with the serial port. ' + err);
+                    }
+
+                    function portClose() {
+                        print('The serial port closed.');
+                    }
+
+                    function serialEvent() {
+                        if (serial.available()) {
+                            var datastring = serial.readLine(); // readin some serial
+                            var newarray; 
+                            try {
+                            newarray = JSON.parse(datastring); // can we parse the serial
+                            if (typeof newarray == 'object') {
+                                dataarray = newarray; // set array to the new information
+                            }
+                            console.log("got back " + datastring); // print to the console what the coordinates are
+
+                            } catch(err) {
+                            // got something that's not a json
+                            }
+                        } 
+                    }
+
+                    function keyPressed() {
+                        console.log("writing key");
+                        serial.write(dataarray[0]); // send x-coordinate of cursor to arduino
+                    }
+
+                    function drawCursor(array){
+                        var xPos = array[0];
+                        var yPos = array[1];
+                        fill("#ff4ddb");
+                        circle(xPos, yPos, 20); // draw purple circle where the cursor is
+                    }
+
+                    function draw() {
+
+                        background("#565052");
+
+                        // code for creating UI, three rectangles (one red, one green, one blue)
+                        fill("#fa2f3a");
+                        noStroke();
+                        rect(50, 20, 100, 100, 20);
+
+
+                        fill("#352FFA");
+                        noStroke();
+                        rect(250, 20, 100, 100, 20);
+
+
+                        fill("#158E1B");
+                        noStroke();
+                        rect(150, 250, 100, 100, 20);
+
+                        // drawing cursor from joystick input
+                        drawCursor(dataarray);
+                    }
+                </code>
+            </pre>
+            <h2>Arduino Code</h2>
+            <pre>
+                <code>
+                    void setup() {
+                        // put your setup code here, to run once:
+                        Serial.begin(9600); // begin serial communication
+                        for(int i = 9; i < 12; i++){
+                          pinMode(i, OUTPUT); // initialize pins 9, 10, and 11 as output
+                        }
+                      
+                      }
+                      
+                      void loop() {
+                        // put your main code here, to run repeatedly:
+                        int readingX = analogRead(A0); // read x position of joystick
+                        int readingY = analogRead(A1); // read y position of joystick
+                      
+                        readingX = map(readingX, 0, 1023, 0, 400); // map the x value to an x value within UI range
+                        readingY = map(readingY, 0, 1023, 0, 400); // map the y value to an y value within UI range
+                        Serial.print("["); // begin sending x, and y coordinate
+                        Serial.print(readingX);
+                        Serial.print(",");
+                        Serial.print(readingY);
+                        Serial.println("]"); // end sending x and y coordinate format is [x,y]
+                        delay(100);
+                      
+                        if (Serial.available() > 0) {   // if there's serial data 
+                          int inByte = Serial.read(); // read it
+                          Serial.write(inByte);  	// send it back out as raw binary data
+                          if(inByte > 50 && inByte < 150){ // if the x value is in this range
+                            digitalWrite(11, HIGH); // turn on red leg of LED
+                            delay(3000); // wait 3 seconds
+                            digitalWrite(11, LOW); // turn off led
+                          }else if(inByte > 159 && inByte < 240){ // if x value is in this range
+                            digitalWrite(10, HIGH); // turn on green led
+                            delay(3000); // wait 3 seconds
+                            digitalWrite(10, LOW); // turn off led
+                          }else{
+                            digitalWrite(9, HIGH); // turn on blue LED
+                            delay(3000); // wait 3 seconds
+                            digitalWrite(9, LOW); // turn off led
+                          }
+                       }
+                      
+                      }
+                </code>
+            </pre>
+        </div>
+        
+    </body>
+</html>
