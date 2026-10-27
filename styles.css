@@ -15,6 +15,10 @@ html{
 
 body{
     width:100%;
+    dislay:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items:center;
 }
 
 #howCanWe{
@@ -40,3 +44,19 @@ body{
     justify-content: center;
     align-items:center;
 }
+
+.hero{
+    display:flex;
+    flex-direction:column;
+    align-items: flex-start; 
+    justify-content:flex-start;
+}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    height:30%;
+    /*background-image: linear-gradient(to bottom, #ff7db5, rgba(255,255,255,0));*/
+  }
