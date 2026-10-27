@@ -1,0 +1,42 @@
+html{
+    margin: 20px;
+    display: flex; 
+    flex-direction: row;
+    justify-content: center;
+    background-color: #F2F0EF;
+}
+
+.picRow{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    width: 80%;
+}
+
+body{
+    width:100%;
+}
+
+#howCanWe{
+    background-color: #F87FB3;
+    color: white;
+    text-decoration: italic;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    height: 100px;
+}
+
+.personaContainer{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.persona{
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items:center;
+}

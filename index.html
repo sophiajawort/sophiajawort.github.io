@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sophia Jawort — Design Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Instrument+Serif:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Instrument+Sans:ital,wght@0,400..700;1,400..7<PASSWORD>&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #F2F0EF;
+    --gray: #D9D9D9;
+    --pink: #ff7db5;
+    --ink: #1A1A18;
+    --ink-soft: #4A4844;
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Instrument Sans', sans-serif;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    height:30%;
+    background-image: linear-gradient(to bottom, #ff7db5, rgba(255,255,255,0));
+  }
+
+  nav{
+    max-width:1200px;
+    margin:0 auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:clamp(2rem, 6vw, 5.5rem);
+    padding:1.6rem 1.5rem;
+    height: 12rem;
+  }
+
+  nav a{
+    color:var(--ink);
+    text-decoration:none;
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:1.05rem;
+    letter-spacing:0.01em;
+    position:relative;
+    padding-bottom:2px;
+  }
+
+  nav a::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:-2px;
+    width:0%;
+    height:2px;
+    background:var(--ink);
+    transition:width 0.25s ease;
+  }
+
+  nav a:hover::after{ width:100%; }
+
+  nav a:focus-visible{ outline:2px solid var(--ink); outline-offset:4px; border-radius:2px; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:calc(100svh - 12rem);
+    display:flex;
+    align-items:center;
+    padding:2rem clamp(1.5rem, 6vw, 5.5rem);
+  }
+
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:400;
+    font-optical-sizing:auto;
+    font-size:clamp(5rem, 5vw, 5rem);
+    line-height:1.25;
+    max-width:1500px;
+    letter-spacing:-0.01em;
+  }
+
+  .hero .name{ font-weight:500; }
+
+  /* ---------- PROJECT SECTIONS ---------- */
+  .project{
+    background:var(--gray);
+    padding:clamp(3rem, 8vw, 5.5rem) clamp(1.25rem, 6vw, 6vw) clamp(3.5rem, 8vw, 5.5rem);
+  }
+
+  .project h2{
+    font-family:var(--serif);
+    font-weight:400;
+    text-align:center;
+    font-size:clamp(1.5rem, 3vw, 2.25rem);
+    letter-spacing:-0.01em;
+    margin-bottom:clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .project-link{
+    display:block;
+    max-width:1247px;
+    margin:0 auto;
+    text-decoration:none;
+    color:inherit;
+  }
+
+  .project-image{
+    aspect-ratio:1247 / 494;
+    background:var(--cream);
+    border-radius:2px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    transition:box-shadow 0.25s ease, transform 0.25s ease;
+  }
+
+  .project-image svg{
+    width:56px;
+    height:56px;
+    opacity:0.28;
+  }
+
+  .project-caption{
+    max-width:550px;
+    margin:1.6rem auto 0;
+    background:var(--cream);
+    border-radius:2px;
+    padding:1.3rem 1.6rem;
+    text-align:center;
+    transition:box-shadow 0.25s ease, transform 0.25s ease;
+  }
+
+  .project-caption p{
+    font-size:0.98rem;
+    line-height:1.55;
+    color:var(--ink-soft);
+  }
+
+  .project-link:hover .project-image,
+  .project-link:focus-visible .project-image{
+    box-shadow:0 18px 40px -18px rgba(0,0,0,0.35);
+    transform:translateY(-3px);
+  }
+
+  .project-link:hover .project-caption,
+  .project-link:focus-visible .project-caption{
+    box-shadow:0 12px 28px -16px rgba(0,0,0,0.28);
+    transform:translateY(-3px);
+  }
+
+  .project-link:focus-visible{ outline:2px solid var(--ink); outline-offset:6px; border-radius:4px; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:clamp(4rem, 10vw, 7rem) 1.5rem clamp(6rem, 12vw, 8rem);
+    text-align:center;
+  }
+
+  footer .cta{
+    display:inline-block;
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:1rem;
+    color:var(--ink);
+    background:var(--gray);
+    text-decoration:none;
+    padding:1rem 2.2rem;
+    border-radius:2px;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  footer .cta:hover,
+  footer .cta:focus-visible{
+    transform:translateY(-2px);
+    box-shadow:0 14px 28px -16px rgba(0,0,0,0.3);
+  }
+
+  footer .cta:focus-visible{ outline:2px solid var(--ink); outline-offset:4px; }
+
+  footer p{
+    margin-top:1.5rem;
+    color:var(--ink-soft);
+    font-size:0.9rem;
+  }
+
+  @media (max-width:640px){
+    nav{ gap:1.4rem; flex-wrap:wrap; }
+    nav a{ font-size:0.92rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav aria-label="Primary">
+    <a href="#projects">Projects</a>
+    <a href="#resume">Resume</a>
+    <a href="#about">About Me</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Hello, I'm <span class="name">Sophia Jawort</span>,
+    a design researcher, currently working at the University of Washington
+    School of Medicine, based in Seattle, WA.</h1>
+</section>
+
+<main id="projects">
+
+  <section class="project" id="project-1">
+    <h2>Personalized Care for Rural Chronic Pain Patients</h2>
+    <a class="project-link" href="project-rural-chronic-pain.html" aria-label="View case study: Personalized Care for Rural Chronic Pain Patients">
+      <div class="project-image" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="3" y="4" width="18" height="16" rx="1"/>
+          <circle cx="8.5" cy="9.5" r="1.6"/>
+          <path d="M3 16l5-5 4 4 3-3 6 6"/>
+        </svg>
+      </div>
+      <div class="project-caption">
+        <p>A field study on how rural patients coordinate chronic pain
+          care across primary providers and remote specialists.</p>
+      </div>
+    </a>
+  </section>
+
+  <section class="project" id="project-2">
+    <h2>Mindfulness Education for Older Adults</h2>
+    <a class="project-link" href="project-mindfulness-older-adults.html" aria-label="View case study: Mindfulness Education for Older Adults">
+      <div class="project-image" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="3" y="4" width="18" height="16" rx="1"/>
+          <circle cx="8.5" cy="9.5" r="1.6"/>
+          <path d="M3 16l5-5 4 4 3-3 6 6"/>
+        </svg>
+      </div>
+      <div class="project-caption">
+        <p>Designing an accessible mindfulness curriculum for older
+          adults navigating cognitive change and social isolation.</p>
+      </div>
+    </a>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <a class="cta" href="mailto:hello@sophiajawort.com">Get in touch</a>
+  <p>Seattle, WA</p>
+</footer>
+
+</body>
+</html>
